@@ -6,6 +6,7 @@
         width: 500px;
         height: 500px;
         font-family: "Courier New", Courier, monospace;
+        overflow: auto;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -27,7 +28,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="document.getElementById('textarea').value=localStorage.getItem('textarea')">
     <textarea id="textarea"></textarea>
     <button id="clear">Clear</button>
     <button id="copy">Copy</button>
@@ -41,10 +42,12 @@
         if (event.key === "Backspace") {
           event.preventDefault();
         }
+        localStorage.setItem('textarea', textarea.value);
       });
 
       clearButton.addEventListener("click", function() {
         textarea.value = "";
+        localStorage.removeItem('textarea');
       });
 
       copyButton.addEventListener("click", function() {
