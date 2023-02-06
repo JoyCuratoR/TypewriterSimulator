@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #typewriter {
+        font-family: Courier New, Courier, monospace;
+        background-color: white;
+        border: none;
+        overflow: auto;
+        resize: none;
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="typewriter" rows="10" cols="30"></textarea><br>
+    <button id="clear-btn">Clear</button>
+    <button id="copy-btn">Copy</button>
+    <script>
+      const textarea = document.getElementById("typewriter");
+      const clearBtn = document.getElementById("clear-btn");
+      const copyBtn = document.getElementById("copy-btn");
+
+      textarea.addEventListener("keydown", function(event) {
+        if (event.key === "Backspace") {
+          event.preventDefault();
+        }
+      });
+
+      clearBtn.addEventListener("click", function() {
+        textarea.value = "";
+      });
+
+      copyBtn.addEventListener("click", function() {
+        textarea.select();
+        document.execCommand("copy");
+      });
+    </script>
+  </body>
+</html>
