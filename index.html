@@ -1,58 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      textarea {
-        width: 500px;
-        height: 500px;
-        font-family: "Courier New", Courier, monospace;
-        overflow: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+<head>
+  <style>
+    #text-box {
+      font-family: 'Courier New', Courier, monospace;
+      width: 500px;
+      height: 300px;
+      margin: auto;
+      display: block;
+      text-align: center;
+      overflow-y: scroll;
+    }
+
+    #buttons {
+      text-align: right;
+      padding-right: 10px;
+    }
+
+    #clear-btn, #copy-btn {
+      background-color: lightgray;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="text-box" contenteditable="true"></div>
+  <div id="buttons">
+    <button id="clear-btn">Clear</button>
+    <button id="copy-btn">Copy</button>
+  </div>
+
+  <script>
+    const textBox = document.querySelector("#text-box");
+    const clearBtn = document.querySelector("#clear-btn");
+    const copyBtn = document.querySelector("#copy-btn");
+
+    // Persist data on page refresh
+    window.addEventListener("beforeunload", (event) => {
+      localStorage.setItem("typedText", textBox.innerHTML);
+    });
+    window.addEventListener("load", () => {
+      textBox.innerHTML = localStorage.getItem("typedText") || "";
+    });
+
+    // Prevent backspace key
+    textBox.addEventListener("keydown", (event) => {
+      if (event.key === "Backspace") {
+        event.preventDefault();
       }
+    });
 
-      button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 10px 20px;
-        border: none;
-        background-color: lightgray;
-        cursor: pointer;
-      }
+    // Clear button functionality
+    clearBtn.addEventListener("click", () => {
+      textBox.innerHTML = "";
+    });
 
-      #clear {
-        margin-right: 10px;
-      }
-    </style>
-  </head>
-  <body onload="document.getElementById('textarea').value=localStorage.getItem('textarea')">
-    <textarea id="textarea"></textarea>
-    <button id="clear">Clear</button>
-    <button id="copy">Copy</button>
-
-    <script>
-      const textarea = document.getElementById("textarea");
-      const clearButton = document.getElementById("clear");
-      const copyButton = document.getElementById("copy");
-
-      textarea.addEventListener("keypress", function(event) {
-        if (event.key === "Backspace") {
-          event.preventDefault();
-        }
-        localStorage.setItem('textarea', textarea.value);
-      });
-
-      clearButton.addEventListener("click", function() {
-        textarea.value = "";
-        localStorage.removeItem('textarea');
-      });
-
-      copyButton.addEventListener("click", function() {
-        navigator.clipboard.writeText(textarea.value);
-      });
-    </script>
-  </body>
+    // Copy button functionality
+    copyBtn.addEventListener("click", () => {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(textBox);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand("copy");
+      selection.removeAllRanges();
+    });
+  </script>
+</body>
 </html>
