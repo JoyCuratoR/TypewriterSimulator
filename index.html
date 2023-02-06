@@ -1,40 +1,54 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
   <head>
     <style>
-      #typewriter {
-        font-family: Courier New, Courier, monospace;
-        background-color: white;
+      textarea {
+        width: 500px;
+        height: 500px;
+        font-family: courier new;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 10px 20px;
         border: none;
-        overflow: auto;
-        resize: none;
-        white-space: pre;
+        background-color: lightgray;
+        cursor: pointer;
+      }
+
+      #clear {
+        margin-right: 10px;
       }
     </style>
   </head>
   <body>
-    <textarea id="typewriter" rows="10" cols="30"></textarea><br>
-    <button id="clear-btn">Clear</button>
-    <button id="copy-btn">Copy</button>
-    <script>
-      const textarea = document.getElementById("typewriter");
-      const clearBtn = document.getElementById("clear-btn");
-      const copyBtn = document.getElementById("copy-btn");
+    <textarea id="textarea"></textarea>
+    <button id="clear">Clear</button>
+    <button id="copy">Copy</button>
 
-      textarea.addEventListener("keydown", function(event) {
+    <script>
+      const textarea = document.getElementById("textarea");
+      const clearButton = document.getElementById("clear");
+      const copyButton = document.getElementById("copy");
+
+      textarea.addEventListener("keypress", function(event) {
         if (event.key === "Backspace") {
           event.preventDefault();
         }
       });
 
-      clearBtn.addEventListener("click", function() {
+      clearButton.addEventListener("click", function() {
         textarea.value = "";
       });
 
-      copyBtn.addEventListener("click", function() {
-        textarea.select();
-        document.execCommand("copy");
+      copyButton.addEventListener("click", function() {
+        navigator.clipboard.writeText(textarea.value);
       });
     </script>
   </body>
