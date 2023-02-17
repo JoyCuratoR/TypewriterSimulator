@@ -10,6 +10,9 @@
       display: block;
       text-align: center;
       overflow-y: scroll;
+      border: 2px solid gray;
+      border-radius: 10px;
+      padding: 10px;
     }
 
     #buttons {
@@ -25,9 +28,20 @@
       cursor: pointer;
       margin-left: 5px;
     }
+
+    #text-instructions {
+      font-style: italic;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+  <div id="text-instructions">
+    Click in the box and begin typing<br>
+    <em>* If you're on OperaGX turn on the Clicky mod for a full typewriter immersion</em>
+  </div>
   <div id="text-box" contenteditable="true"></div>
   <div id="buttons">
     <button id="clear-btn">Clear</button>
